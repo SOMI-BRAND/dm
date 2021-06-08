@@ -204,7 +204,7 @@ def ex_id():
     print("")
     os.system("cat friends.txt | grep '100069' > /sdcard/friends.txt")
     os.system("cat friends.txt | grep '100067' >> /sdcard/friends.txt")
-    os.system("cat friends.txt | grep '100068' >> /sdcard/friends.txt")
+    os.system("cat friends.txt | grep '100068' >>> /sdcard/friends.txt")
     
     raw_input(" Press enter to download file")
     
